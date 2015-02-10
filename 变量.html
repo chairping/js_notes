@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>GETTING STARTED WITH BRACKETS</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+
+    </head>
+    <body>
+        <h1>重变量说起</h1>
+    <script>
+    // 浏览器就是一个被实例化的window对象
+//        var name="first";
+//        function ctrip() {
+//            var name = "second";
+//            console.log(name);
+//        }
+//        ctrip();
+//        console.log(name);
+        // second
+        // first
+        
+        var name2="first";
+        function ctrip2() {
+            console.log(name2);
+            var name2 = "second";
+        }
+        ctrip2(); // ctrip函数第一件事是收集name这个局部变量
+        console.log(name2);
+        // undefined
+        // first
+        
+    // 作用域链
+        var name="first";
+        function ctrip() {
+            var name="second";
+            console.log(name);
+            
+            function plane() {
+                var name="third";
+                console.log(name);
+            }
+            plane();
+        }
+        ctrip();
+        console.log(name);
+        
+        var name="first";
+        function ctrip() {
+            var name="second";
+            console.log(name);
+            
+            function plane() {
+                // name 没有被定义 就会回溯到上一级作用域
+                // 如果找到 则作用域就是上一级的作用域 如果没有就再上一级
+                // 直到全局作用域
+                name="third";
+                console.log(name);
+            }
+            plane();
+        }
+        ctrip();
+        console.log(name);
+
+    </script>
+    </body>
+</html>

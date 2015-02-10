@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>GETTING STARTED WITH BRACKETS</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+
+    </head>
+    <body>
+        <h1>apply 使用继承</h1>
+    <script>
+       // 对象的继承, 一般的做法是复制, Object.extend
+        Object.extend = function(destination, source)  {
+            for(property in source) {
+                destination[property] = source[property];
+            }
+            return destination;
+        }
+        // 除此之外 还有 Function.apply 和 Function.call
+        // apply 方法能劫持另外一个对象的方法, 继承另外一个对象的属性
+        // Function.apply(obj,args)方法能接收两个参数
+        // obj：这个对象将代替Function类里this对象
+        // args：这个是数组，它将作为参数传给Function（args-->arguments）
+        function Person(name, age) { // 定义一个类, 人类
+            this.functionName = name;
+            this.age = age;
+            this.sayhello = function() {alert("hello");}
+        }
+        
+        function Print() { // 显示类的属性
+            this.funcName = "Print";
+            this.show = function() {
+                var msg = [];
+                for (var key in this) {
+                    if(typeof(this[key] != "function")) {
+                        msg.push([key,":",this[key]].join(" "));
+                    }
+                }
+                alert(msg.join(" "));
+            }
+        }
+        
+        function Student(name, age, grade, school){
+            // apply 继承其他类
+            Person.apply(this.arguments);// Student 具备了Person类的sayhello方法和所有属性
+            Print.apply(this, arguments);// Print.apply(this,arguments)后就自动得到了show()方法
+            this.grade = grade;
+            this.school = school;
+        }
+//        var p1 = new Person("jake", 10);
+//        p1.sayhello();
+//        var s1 = new Student("tom", 13, 6, "清华小学");
+//        s1.show();
+//        s1.sayhello();
+//        alert(s1.funcName);
+        var arr = [5, 7, 9, 1];
+//        alert(Math.max(arr));// 无法使用
+        // 一定要这么写  麻烦且低效
+        function getMax(arr) {
+            var arrLen = arr.length;
+            for(var i =0, ret=arr[0]; i<arrLen; i++) {
+                ret = Math.max(ret, arr[i]);
+            }
+            return ret;
+        }
+        // 两段代码效果形同, 但更优雅,高效, 简洁
+        function getMax2(arr) {
+            return Math.max.apply(null, arr);
+        }
+        
+        var arr1=[1,3,4];
+        var arr2=[3,4,5];
+        Array.prototype.push.apply(arr1,arr2);
+        
+        // 调用Class类的crate方法 返回一个function  该方法也是一个对象(全面向对象)
+        // 实例化该函数的时候 会触发构造函数  js性质 实例化哪个方法 该方法也就成为了构造函数并执行里面的内容
+        var Class = {
+            create:function() {
+                return function() {
+                    //initialize是个变量，代表一个方法，用途是类的构造函数
+                    // this是指用new调用构造函数之后生成的对象
+                    // arguments对象（参数的数组对象）
+                    // 构造函数执行的时候，对象a就会去执行initialize方法来初始化
+                    this.initialize.apply(this, arguments);
+                }
+            }
+        }
+        // 构造一个funcion复制给A 
+        var A = Class.create();
+        // Prototype 是原型的意思 A是一个function（）
+        // A. prototype，就是function中的一个变量,其实是个对象。
+        //这个对象有什么方法 A就有什么方法
+        // 每一个有A构造出来的对象都会有一个initialize方法
+        A.prototype = {
+            initialize:function(v){  
+                this.value = v;
+            },
+            showValue:function() {
+                alert(this.value);
+            }
+        }
+        //构造函数里面会让initialize去调用apply方法，
+        //于是在new A(‘helloWord!')的时候initialize回去调用apply方法。这也就是调用了一个初始化的方法。 
+        var a = new A('helloWorld!');
+        a.showValue();
+        
+        // 实例说明 arguments 对象
+        function test() {
+            alert(typeof arguments); // object
+            for(var i= 0; i< arguments.length; i++) {
+                alert(arguments[i]);
+            }
+        }
+        test("1", "2", "3");
+        test("a", "b");
+                
+    </script>
+    </body>
+</html>
