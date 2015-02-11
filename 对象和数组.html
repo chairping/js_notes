@@ -12,8 +12,19 @@
     <body>
         <h1>对象和数组</h1>
     <script>
-    // 浏览器就是一个被实例化的window对象
-
+        var delivery = {
+            no : 1,
+            sendtime : "2014-11-25",
+            address : ["北京", "上海", "南京"],
+            way : "PJS",
+            cansend : function() {
+                return true;
+            }
+        };
+        
+        // 数组定义的两种方式
+        var s = [1, "ctrip"];
+        var a = new Array(1, "ctrip");
     </script>
     </body>
 </html>

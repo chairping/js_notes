@@ -1,0 +1,30 @@
+.
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>GETTING STARTED WITH BRACKETS</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+
+    </head>
+    <body>
+        <h1>wriable特性</h1>
+    <script>
+        var person = function() {
+            this.Name = "a
+        };
+        
+        var p = new person();
+        //所以定义特性只能是通过底层公开的方法来定义，也就是defineProperty。
+        Object.defineProperty(p, "name", {
+           configurable : true,// false 就不可以使用delete, update 属性
+            writable :false //我使用了defineProperty方法将person.name变成了只读字段
+        });
+        p.Name = "b";
+        console.log(p.Name);
+       
+    </script>
+    </body>
+</html>
